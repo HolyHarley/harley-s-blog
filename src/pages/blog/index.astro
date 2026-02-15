@@ -2,7 +2,11 @@
 import Layout from "../../layouts/Layout.astro";
 
 // 記事を取得
-const posts = await Astro.glob("./*.{md,mdx}");
+const allPosts = import.meta.glob("./*.{md,mdx}", { eager: true });
+const posts = Object.values(allPosts).map((post: any) => ({
+    url: post.url,
+    frontmatter: post.frontmatter,
+}));
 ---
 
 <Layout title="Blog Posts">
