@@ -1,52 +1,29 @@
 ---
-import "../styles/global.css";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = SITE_DESCRIPTION } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Outfit:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>{title}</title>
+    <BaseHead title={title} description={description} />
   </head>
   <body>
     <div class="layout-wrapper">
-      <header class="site-header">
-        <div class="container header-inner">
-          <a href="/" class="logo">My Blog</a>
-          <nav>
-            <ul class="nav-list">
-              <li><a href="/" class="nav-link">ホーム</a></li>
-              <li><a href="/about" class="nav-link">概要</a></li>
-              <li><a href="/blog" class="nav-link">ブログ</a></li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-
+      <Header />
       <main>
         <slot />
       </main>
-
-      <footer class="site-footer">
-        <div class="container">
-          <p>&copy; {new Date().getFullYear()} My Blog. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   </body>
 </html>
@@ -58,61 +35,8 @@ const { title } = Astro.props;
     min-height: 100vh;
   }
 
-  .site-header {
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--color-border);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 1rem 0;
-  }
-
-  .header-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(
-      to right,
-      var(--color-primary),
-      var(--color-accent)
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .nav-list {
-    display: list-item;
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-  }
-
-  .nav-link {
-    font-weight: 600;
-    color: var(--color-text-muted);
-  }
-
-  .nav-link:hover {
-    color: var(--color-text);
-  }
-
   main {
     flex: 1;
     padding: 2rem 0;
-  }
-
-  .site-footer {
-    border-top: 1px solid var(--color-border);
-    padding: 2rem 0;
-    text-align: center;
-    color: var(--color-text-muted);
-    font-size: 0.875rem;
   }
 </style>

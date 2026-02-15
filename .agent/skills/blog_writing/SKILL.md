@@ -19,7 +19,7 @@ version: 1.0.0
     *   記事の構成案（見出しレベルでのアウトライン）を作成し、ユーザーの確認を得ます。
 
 2.  **ファイル作成**
-    *   `src/pages/blog/` ディレクトリに新しい`.md`または`.mdx` ファイルを作成します。
+    *   `src/content/blog/` ディレクトリに新しい`.md`または`.mdx` ファイルを作成します。
     *   ファイル名は `YYYY-MM-DD-slug.md` の形式、または記事の内容を表す英数字の `slug.md` とします。
 
 3.  **Frontmatter の設定**
@@ -27,7 +27,6 @@ version: 1.0.0
 
     ```yaml
     ---
-    layout: ../../layouts/BlogPost.astro
     title: "記事のタイトル"
     description: "記事の概要・抜粋"
     pubDate: "YYYY-MM-DD" # 例: 2024-01-01
@@ -51,6 +50,6 @@ version: 1.0.0
 
 ## ルール
 
-*   **ファイル配置**: 記事ファイルは必ず `src/pages/blog/` 配下に配置すること。
+*   **ファイル配置**: 記事ファイルは必ず `src/content/blog/` 配下に配置すること。
 *   **画像パス**: 画像は `public/` ディレクトリに保存し、記事内では `/` から始まる絶対パスで参照すること。
 *   **Frontmatter**: 必須項目（title, pubDate, description）は必ず含めること。

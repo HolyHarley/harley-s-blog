@@ -1,0 +1,19 @@
+---
+const today = new Date();
+---
+
+<footer class="site-footer">
+    <div class="container">
+        <p>&copy; {today.getFullYear()} My Blog. All rights reserved.</p>
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        border-top: 1px solid var(--color-border);
+        padding: 2rem 0;
+        text-align: center;
+        color: var(--color-text-muted);
+        font-size: 0.875rem;
+    }
+</style>

@@ -1,0 +1,63 @@
+---
+import { SITE_TITLE } from "../consts";
+---
+
+<header class="site-header">
+    <div class="container header-inner">
+        <a href="/" class="logo">{SITE_TITLE}</a>
+        <nav>
+            <ul class="nav-list">
+                <li><a href="/" class="nav-link">ホーム</a></li>
+                <li><a href="/about" class="nav-link">概要</a></li>
+                <li><a href="/blog" class="nav-link">ブログ</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--color-border);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        padding: 1rem 0;
+    }
+
+    .header-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(
+            to right,
+            var(--color-primary),
+            var(--color-accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .nav-list {
+        display: list-item;
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+    }
+
+    .nav-link {
+        font-weight: 600;
+        color: var(--color-text-muted);
+    }
+
+    .nav-link:hover {
+        color: var(--color-text);
+    }
+</style>

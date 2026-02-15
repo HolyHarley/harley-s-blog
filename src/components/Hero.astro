@@ -1,0 +1,74 @@
+<section class="hero">
+    <div class="container hero-inner">
+        <h1 class="animate-fade-in">
+            Dev <span class="text-gradient">Blog</span>
+        </h1>
+        <p class="hero-text animate-fade-in" style="animation-delay: 0.1s;">
+            Astro, Bun, Hono, Viteで構成されています。
+        </p>
+        <div
+            class="hero-actions animate-fade-in"
+            style="animation-delay: 0.2s;"
+        >
+            <a href="/blog" class="btn">記事を読む</a>
+            <a
+                href="https://github.com"
+                target="_blank"
+                class="btn btn-secondary">GitHub</a
+            >
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero {
+        padding: 6rem 0;
+        text-align: center;
+        background: radial-gradient(
+            circle at center,
+            rgba(99, 102, 241, 0.15) 0%,
+            transparent 70%
+        );
+    }
+
+    h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.5rem;
+    }
+
+    .text-gradient {
+        background: linear-gradient(
+            to right,
+            var(--color-primary),
+            var(--color-accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-text {
+        font-size: 1.25rem;
+        color: var(--color-text-muted);
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+    }
+
+    .hero-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .btn-secondary {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        color: var(--color-text);
+    }
+
+    .btn-secondary:hover {
+        background: var(--color-surface);
+        border-color: var(--color-text);
+    }
+</style>

@@ -1,0 +1,215 @@
+---
+# layout: ../../layouts/BlogPost.astro
+title: "【Astro入門】初心者から中級者まで！必須の構文テクニック完全ガイド"
+description: ".astroファイルの書き方をマスターしよう！Props、条件付きレンダリング、動的タグなど、開発に役立つ構文を網羅的に解説します。"
+pubDate: "2026-02-15"
+heroImage: "/blog-placeholder-2.jpg"
+tags: ["Astro", "Tutorial", "Basics"]
+---
+import Callout from '../../components/Callout.astro';
+
+Astroは、**HTMLライクな構文**で直感的に書けるのが魅力ですが、実はReactのJSXによく似た強力な機能を備えています。
+
+この記事では、`.astro` ファイルを書く上で「これだけは知っておきたい！」という必須の構文テクニックを、初心者〜中級者向けにまとめました。
+
+## 1. コンポーネントの基本構造
+
+Astroコンポーネントは、**コンポーネントスクリプト**（JavaScript実行部分）と**コンポーネントテンプレート**（HTML描画部分）の2つに分かれています。
+
+```astro
+---
+// --- で囲まれた部分が「コンポーネントスクリプト」
+// ビルド時にサーバーサイド（またはビルド環境）でのみ実行されます。
+const name = "Astro";
+console.log("This runs at build time!");
+---
+
+<!-- 下の部分が「コンポーネントテンプレート」 -->
+<h1>Hello, {name}!</h1>
+```
+
+<Callout type="info" title="ポイント">
+コンポーネントスクリプト内のコードは、`<script>` タグを使わない限り、ブラウザには送信されません。秘密鍵やデータベース接続などの処理も安全に記述できます。
+</Callout>
+
+## 2. 変数の埋め込み (JSXライクな式)
+
+HTML内で変数を表示するには、中括弧 `{}` を使います。
+
+```astro
+---
+const title = "My Site";
+const isActive = true;
+---
+
+<h1>{title}</h1>
+
+<!-- 属性に変数を渡す場合も {} を使います -->
+<div class={isActive ? "active" : ""}>...</div>
+```
+
+## 3. Props（プロパティ）の受け渡し
+
+親コンポーネントからデータを受け取るには、`Astro.props` を使います。
+TypeScriptを使うと、型定義もしっかりできて便利です。
+
+```astro
+---
+// TypeScriptでPropsの型を定義
+interface Props {
+  title: string;
+  count?: number; // オプショナルなプロパティ
+}
+
+const { title, count = 0 } = Astro.props;
+---
+
+<h2>{title} (Count: {count})</h2>
+```
+
+## 4. 条件付きレンダリング
+
+「特定の条件のときだけ表示したい」という場合は、論理演算子 `&&` や三項演算子を使います。
+
+### `&&` (AND) 演算子
+
+条件が `true` のときだけ要素を表示します。
+
+```astro
+---
+const isLoggedIn = true;
+---
+
+{isLoggedIn && <button>ログアウト</button>}
+```
+
+### 三項演算子
+
+条件によって表示する内容を切り替えます。
+
+```astro
+{isLoggedIn ? (
+  <p>こんにちは、ユーザーさん！</p>
+) : (
+  <button>ログインしてください</button>
+)}
+```
+
+## 5. リストレンダリング (繰り返し)
+
+配列データを元にリストを表示するには、JavaScriptの `Array.map()` を使います。
+Reactのような `key` 属性は、Astroでは**必須ではありません**が、追加しても問題ありません。
+
+```astro
+---
+const items = ["Apple", "Banana", "Cherry"];
+---
+
+<ul>
+  {items.map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+```
+
+## 6. フラグメント (Fragments)
+
+複数の要素を返したいけれど、余計な `<div>` で囲みたくない場合は、`<Fragment>` または省略形の `<>...</>` を使います。
+
+```astro
+---
+---
+<>
+  <p>要素1</p>
+  <p>要素2</p>
+</>
+```
+
+## 7. スロット (`<slot />`)
+
+コンポーネントのタグで囲んだ中身を、子要素として受け取るには `<slot />` を使います。
+Reactの `children` に相当します。
+
+**Wrapper.astro:**
+```astro
+<div class="wrapper">
+  <slot /> {/* ここに中身が展開される */}
+</div>
+```
+
+**使用側:**
+```astro
+<Wrapper>
+  <p>これはスロットの中身です。</p>
+</Wrapper>
+```
+
+### 名前付きスロット
+
+複数のスロット場所を用意することもできます。
+
+**Card.astro:**
+```astro
+<div class="card">
+  <header>
+    <slot name="header" />
+  </header>
+  <main>
+    <slot /> <!-- デフォルトスロット -->
+  </main>
+</div>
+```
+
+**使用側:**
+```astro
+<Card>
+  <h2 slot="header">カードのタイトル</h2>
+  <p>カードの本文</p>
+</Card>
+```
+
+## 8. 動的タグ (Dynamic Tags)
+
+HTMLタグの種類を変数で切り替えたい場合に便利です。例えば、見出しレベル（`h1`〜`h6`）をPropsで受け取って変える場合など。
+
+**重要ルール**: 変数名は**大文字で始める**必要があります。
+
+```astro
+---
+const { level = 1 } = Astro.props;
+const Tag = `h${level}`; // 'h1', 'h2', ...
+---
+
+<Tag>これは {Tag} タグです</Tag>
+```
+
+## 9. クライアントサイドスクリプト
+
+インタラクティブな動き（ボタンクリックなど）を追加したい場合は、`<script>` タグを書きます。
+Astroはデフォルトでスクリプトをバンドル・最適化してくれます。
+
+```astro
+<button id="alert-btn">Click Me</button>
+
+<script>
+  // ブラウザで実行されるコード
+  const btn = document.getElementById('alert-btn');
+  btn?.addEventListener('click', () => {
+    alert('Clicked!');
+  });
+</script>
+```
+
+<Callout type="warning" title="注意">
+Astroコンポーネント内のスクリプトは、コンポーネントが複数回使われても、**ページ内で1回だけ実行**されます。
+複数要素を操作したい場合は、`document.querySelectorAll` などを使ってすべての要素に対して処理を行う必要があります。
+</Callout>
+
+---
+
+## まとめ
+
+Astroの構文は、HTMLとJavaScript(ESM)の知識があればすぐに習得できるシンプルさが魅力です。
+今回紹介した必須テクニックを使いこなせば、再利用性が高く、メンテナンスしやすいコンポーネントをサクサク作れるようになります。
+
+ぜひご自身のプロジェクトで試してみてください！
