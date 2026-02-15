@@ -1,0 +1,70 @@
+---
+layout: ../../layouts/Layout.astro
+title: このブログのアーキテクチャについて
+description: Astro, Bun, Hono, Vitest, Vercel を採用した最新の技術スタックについて解説します。
+---
+
+<div class="container" style={{ padding: '4rem 1.5rem', maxWidth: '800px' }}>
+  <h1 style={{ fontSize: '2.5rem', marginBottom: '2rem' }}>このブログの技術スタック</h1>
+
+  <p style={{ marginBottom: '2rem', color: 'var(--color-text-muted)' }}>
+    このブログは、パフォーマンスと開発者体験を重視した最新の技術スタックで構築されています。
+    以下に採用している主な技術とその理由を紹介します。
+  </p>
+
+  <div class="stack-grid">
+    <div class="stack-item">
+      <h2>Astro</h2>
+      <p>
+        <strong>Webフレームワーク</strong><br />
+        コンテンツ中心のウェブサイトに最適なフレームワークです。
+        "Island Architecture" により、必要な部分のみにJavaScriptをロードするため、
+        非常に高速なパフォーマンスを実現します。
+      </p>
+    </div>
+
+    <div class="stack-item">
+      <h2>Bun</h2>
+      <p>
+        <strong>ランタイム & パッケージマネージャー</strong><br />
+        Node.js 互換の超高速な JavaScript ランタイムです。
+        パッケージのインストールやスクリプトの実行速度が速く、開発体験を大きく向上させます。
+      </p>
+    </div>
+
+    <div class="stack-item">
+      <h2>Hono</h2>
+      <p>
+        <strong>API サーバー</strong><br />
+        Web標準に準拠した軽量かつ高速な Web フレームワークです。
+        Astro の API ルートとして統合されており、バックエンドのロジックを効率的に処理します。
+      </p>
+    </div>
+
+    <div class="stack-item">
+      <h2>Vitest</h2>
+      <p>
+        <strong>テストフレームワーク</strong><br />
+        Vite ネイティブの高速な単体テストフレームワークです。
+        設定が簡単で、Bun との相性も抜群です。
+      </p>
+    </div>
+
+    <div class="stack-item">
+      <h2>TypeScript</h2>
+      <p>
+        <strong>プログラミング言語</strong><br />
+        型安全性を提供し、コードの品質と保守性を高めるために採用しています。
+      </p>
+    </div>
+
+    <div class="stack-item">
+      <h2>Vercel</h2>
+      <p>
+        <strong>デプロイメント</strong><br />
+        Astro の Server Output モードと専用アダプターを使用し、
+        エッジに近い環境で高性能なホスティングを実現しています。
+      </p>
+    </div>
+  </div>
+</div>

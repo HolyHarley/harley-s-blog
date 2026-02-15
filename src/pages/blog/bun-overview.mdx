@@ -1,0 +1,80 @@
+---
+layout: ../../layouts/BlogPost.astro
+title: "超高速JavaScriptランタイム「Bun」入門：特徴から使い方まで"
+description: "Node.jsに代わる高速なJavaScriptランタイム「Bun」の概要、基本的な使い方、公式ドキュメントへのリンクをまとめた入門記事です。"
+pubDate: "2026-02-15"
+
+tags: ["Bun", "JavaScript", "TypeScript", "Runtime"]
+---
+import Callout from '../../components/Callout.astro';
+
+<Callout type="info" title="Bunとは？">
+**Bun**（バン）は、JavaScriptおよびTypeScriptのための、現代的で高速なオールインワン・ランタイムです。Node.jsやDenoに代わる存在として注目を集めています。
+</Callout>
+
+## 主な特徴
+
+Bunには開発者体験を向上させる多くの特徴があります。
+
+<Callout type="tip" title="圧倒的な速度">
+JavaScriptCoreエンジン（Safariで使用されているエンジン）を採用しており、起動時間や実行速度が非常に高速です。Node.jsと比較して数倍速いことも珍しくありません。
+</Callout>
+
+*   **TypeScriptのネイティブサポート**: 追加の設定なしでTypeScriptファイル（.ts, .tsx）を直接実行できます。
+*   **オールインワン**: バンドラー、トランスパイラ、パッケージマネージャー、テストランナーが標準で組み込まれています。
+*   **Node.js互換**: 多くのNode.js APIと互換性があり、既存のnpmパッケージもそのまま利用可能です。
+
+## Bunの使い方
+
+### インストール
+
+macOS、Linux、WSLでは以下のコマンドで簡単にインストールできます。
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+<Callout type="warning" title="Windowsユーザーの方へ">
+Windows環境では、WSL (Windows Subsystem for Linux) の使用が推奨されています。ネイティブWindowsビルドは現在実験的な段階です。
+</Callout>
+
+### プロジェクトの作成
+
+新しいプロジェクトを始めるには `bun init` コマンドを使用します。
+
+```bash
+mkdir my-bun-app
+cd my-bun-app
+bun init
+```
+
+これで `package.json`、`README.md`、`index.ts` などが自動生成されます。
+
+### スクリプトの実行
+
+TypeScriptファイルを直接実行できます。
+
+```bash
+bun run index.ts
+```
+
+### パッケージのインストール
+
+npmの代わりに `bun add` を使用してパッケージを高速にインストールできます。
+
+```bash
+bun add zod
+bun add -d typescript
+```
+
+## 公式ドキュメント
+
+より詳しい情報やAPIリファレンスについては、以下の公式サイトおよびドキュメントを参照してください。
+
+*   **公式サイト**: [https://bun.sh](https://bun.sh)
+*   **ドキュメント**: [https://bun.sh/docs](https://bun.sh/docs)
+*   **GitHubリポジトリ**: [https://github.com/oven-sh/bun](https://github.com/oven-sh/bun)
+
+## まとめ
+
+Bunは、その速度と多機能性により、開発体験を大きく向上させる可能性を秘めています。特に新規プロジェクトや、パフォーマンスが求められる場面での採用を検討してみてはいかがでしょうか。

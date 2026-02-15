@@ -1,0 +1,72 @@
+---
+import Layout from "./Layout.astro";
+
+const { frontmatter } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage } =
+    frontmatter || Astro.props;
+---
+
+<Layout title={title}>
+    <article class="blog-post">
+        {
+            heroImage && (
+                <img
+                    width={720}
+                    height={360}
+                    src={heroImage}
+                    alt=""
+                    class="hero-image"
+                />
+            )
+        }
+        <h1 class="title">{title}</h1>
+        <div class="date">
+            {pubDate && <time datetime={pubDate}>{pubDate}</time>}
+            {
+                updatedDate && (
+                    <div class="last-updated-on">
+                        Last updated on{" "}
+                        <time datetime={updatedDate}>{updatedDate}</time>
+                    </div>
+                )
+            }
+        </div>
+        <hr />
+        <div class="prose">
+            <slot />
+        </div>
+    </article>
+</Layout>
+
+<style>
+    .blog-post {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    .hero-image {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: var(--shadow-md);
+        margin-bottom: 2rem;
+    }
+    .title {
+        font-size: 2.5rem;
+        margin: 0.5rem 0;
+        line-height: 1.2;
+        color: var(--color-heading);
+    }
+    .date {
+        margin-bottom: 1rem;
+        color: var(--color-text-muted);
+    }
+    .prose {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    hr {
+        border-top: 1px solid var(--color-border);
+        margin: 2rem 0;
+    }
+</style>
