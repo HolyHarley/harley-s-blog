@@ -24,6 +24,22 @@
 			"dest": "_render"
 		},
 		{
+			"src": "^/blog/architecture/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/blog/bun-overview/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/blog/tech-stack/?$",
+			"dest": "_render"
+		},
+		{
+			"src": "^/blog/?$",
+			"dest": "_render"
+		},
+		{
 			"src": "^/$",
 			"dest": "_render"
 		}
