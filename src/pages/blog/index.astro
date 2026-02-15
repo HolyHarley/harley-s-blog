@@ -1,31 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-// 記事を手動でリスト化（Vercel互換性のため）
-const posts = [
-    {
-        url: "/blog/bun-overview",
-        frontmatter: {
-            title: "超高速JavaScriptランタイム「Bun」入門：特徴から使い方まで",
-            description:
-                "Node.jsに代わる高速なJavaScriptランタイム「Bun」の概要、基本的な使い方、公式ドキュメントへのリンクをまとめた入門記事です。",
-        },
-    },
-    {
-        url: "/blog/tech-stack",
-        frontmatter: {
-            title: "技術スタックの概要",
-            description: "このブログで使用している技術スタックについて",
-        },
-    },
-    {
-        url: "/blog/architecture",
-        frontmatter: {
-            title: "このブログのアーキテクチャについて",
-            description: "ブログのアーキテクチャと設計思想",
-        },
-    },
-];
+// 記事を自動でリスト化
+const posts = (await Astro.glob("./*.{md,mdx}")).sort(
+    (a, b) =>
+        new Date(b.frontmatter.pubDate).valueOf() -
+        new Date(a.frontmatter.pubDate).valueOf(),
+);
 ---
 
 <Layout title="Blog Posts">

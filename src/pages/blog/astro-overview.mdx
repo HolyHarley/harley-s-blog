@@ -1,0 +1,168 @@
+---
+layout: ../../layouts/BlogPost.astro
+title: "Astroフレームワーク完全ガイド：特徴と使い方"
+description: "コンテンツ重視のWebサイト構築に最適なAstroフレームワークの特徴、メリット、そして基本的な使い方を解説します。"
+pubDate: "2026-02-15"
+heroImage: "/astro-overview-thumbnail.png"
+tags: ["Astro", "Web Development", "Frontend", "SSG"]
+---
+
+Web開発の世界は日々進化していますが、その中でも特に注目を集めているのが**Astro**フレームワークです。
+「高速なWebサイトを構築したい」「ReactやVueなどの好きなフレームワークを使いたい」
+そんな開発者の願いを叶えるAstroについて、その特徴と基本的な使い方をこれ一本で解説します。
+
+## Astroとは？
+
+Astroは、**コンテンツ重視のWebサイト（ブログ、ドキュメント、ポートフォリオ、ECサイトなど）を作成するためのオールインワンWebフレームワーク**です。
+
+従来のJavaScriptフレームワーク（Next.jsやNuxtなど）は、アプリケーション全体をSPA（シングルページアプリケーション）として構築する傾向がありましたが、Astroは**MPA（マルチページアプリケーション）**のアプローチを採用しています。これにより、驚くほど高速なページロードを実現しています。
+
+## Astroの主な特徴
+
+Astroが他のフレームワークと一線を画す点は、以下の4つの主要な機能にあります。
+
+### 1. アイランドアーキテクチャ (Islands Architecture)
+
+これがAstro最大の特徴です。
+従来のSPAでは、ページ全体がJavaScriptとしてブラウザに送信され、実行されていました（Hydration）。
+一方、Astroの「アイランド」アプローチでは、ページ全体を静的なHTMLとしてレンダリングし、**インタラクティブな部分（スライダー、メニュー、検索バーなど）だけを「島（Island）」として独立させ、そこだけJavaScriptを読み込みます**。
+
+結果として、JavaScriptの送信量を劇的に削減でき、TTime to Interactive (TTI) が大幅に向上します。
+
+### 2. UIフレームワークに依存しない (UI-Agnostic)
+
+Astro自体にもコンポーネントシステムがありますが、**React, Vue, Svelte, Solid, Preact, Alpine.js** など、既存のUIフレームワークのコンポーネントをそのまま利用できます。
+
+```astro
+---
+// ReactコンポーネントとSvelteコンポーネントを同じファイルでインポート！
+import MyReactComponent from '../components/MyReactComponent.jsx';
+import MySvelteComponent from '../components/MySvelteComponent.svelte';
+---
+
+<MyReactComponent />
+<MySvelteComponent />
+```
+
+プロジェクトの要件やチームのスキルセットに合わせて、最適なツールを選択できる自由度があります。
+
+### 3. デフォルトでゼロJS (Zero JS by default)
+
+Astroはデフォルトで、クライアントサイド（ブラウザ）へJavaScriptを一切送信しません。
+完全に静的なHTMLとしてビルドされます。
+
+JavaScriptが必要な場合のみ、`client:load` や `client:visible` といったディレクティブをコンポーネントに追加します。
+
+```astro
+<!-- ページロード時に即座にハイドレーション -->
+<InteractiveComponent client:load />
+
+<!-- ユーザーが見えるまで読み込まない（Lazy Load） -->
+<InteractiveComponent client:visible />
+```
+
+この「オプトイン（明示的に有効化する）」アプローチが、高速なパフォーマンスの秘密です。
+
+### 4. コンテンツコレクション (Content Collections)
+
+MarkdownやMDXファイルで記事を管理する際、Frontmatter（メタデータ）の型定義を強制できる機能です。
+`src/content/config.ts` でスキーマを定義することで、タイトルの入力忘れや、日付フォーマットのミスなどをビルド時に検知できます。
+
+```typescript
+// src/content/config.ts
+import { defineCollection, z } from 'astro:content';
+
+const blog = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    pubDate: z.date(),
+    tags: z.array(z.string()),
+  }),
+});
+
+export const collections = { blog };
+```
+
+## 基本的な使い方
+
+では、実際にAstroを使ってプロジェクトを始めてみましょう。
+
+### 1. 環境構築
+
+Node.js（v18.14.1以降）がインストールされている環境で、以下のコマンドを実行します。
+
+```bash
+# npmの場合
+npm create astro@latest
+
+# bunの場合（推奨＆爆速！）
+bun create astro
+```
+
+対話形式でプロジェクト名やTypeScriptの設定などを聞かれるので、回答していくだけでセットアップが完了します。
+
+### 2. プロジェクト構造
+
+生成されたプロジェクトの主な構造は以下のようになります。
+
+```text
+src/
+├── components/   # 再利用可能なコンポーネント
+├── layouts/      # ページレイアウト
+├── pages/        # ページファイル（ファイルベースルーティング）
+└── content/      # ブログ記事などのコンテンツ（オプション）
+astro.config.mjs  # Astroの設定ファイル
+package.json
+tsconfig.json
+```
+
+### 3. コンポーネントの作成
+
+Astroコンポーネント（`.astro`ファイル）は、HTMLに似た構文で直感的に記述できます。
+ファイル上部の `---` で囲まれた部分（コードフェンス）に、ビルド時に実行されるJavaScript/TypeScriptを書きます。
+
+```astro
+---
+// src/components/Greeting.astro
+const header = "こんにちは、Astro！";
+const items = ["Item 1", "Item 2", "Item 3"];
+---
+
+<div class="greeting-card">
+  <h2>{header}</h2>
+  <ul>
+    {items.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  /* コンポーネントスコープのCSS */
+  .greeting-card {
+    padding: 1rem;
+    border: 1px solid #ccc;
+  }
+</style>
+```
+
+### 4. ページ作成
+
+`src/pages/` ディレクトリにファイルを作成すると、自動的にルーティングされます。
+
+- `src/pages/index.astro` -> `/`
+- `src/pages/about.astro` -> `/about`
+- `src/pages/blog/post-1.md` -> `/blog/post-1`
+
+Markdownファイルもそのままページとして表示できるため、ブログ構築が非常に簡単です。
+
+## まとめ
+
+Astroは、**「コンテンツ中心」**という明確な目的のために最適化されたフレームワークです。
+
+- 圧倒的なパフォーマンスが必要
+- Markdown/MDXでコンテンツを管理したい
+- 既存のReactやVueの知識を活かしたい
+
+このようなケースにおいて、Astroは最高の選択肢となります。
+ぜひ、あなたの次のプロジェクトでAstroの「爆速」体験を味わってみてください。

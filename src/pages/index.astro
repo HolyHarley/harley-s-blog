@@ -1,5 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const posts = (await Astro.glob("./blog/*.{md,mdx}"))
+	.sort(
+		(a, b) =>
+			new Date(b.frontmatter.pubDate).valueOf() -
+			new Date(a.frontmatter.pubDate).valueOf(),
+	)
+	.slice(0, 3);
 ---
 
 <Layout title="Welcome to My Blog">
@@ -25,34 +33,46 @@ import Layout from "../layouts/Layout.astro";
 		</div>
 	</section>
 
-	<section class="features">
+	<section class="latest-posts">
 		<div class="container">
-			<h2 class="section-title">最新の更新</h2>
-			<div class="grid">
-				<article class="card">
-					<h3>Bun を始めよう</h3>
-					<p>
-						なぜ Bun が JavaScript
-						の最速ランタイムなのか、そしてその使い方について。
-					</p>
-					<a href="#" class="read-more">もっと読む &rarr;</a>
-				</article>
-				<article class="card">
-					<h3>Astro 5.0 の機能</h3>
-					<p>
-						Astro 5.0
-						の新機能とサーバーアイランドについて探求します。
-					</p>
-					<a href="#" class="read-more">もっと読む &rarr;</a>
-				</article>
-				<article class="card">
-					<h3>エッジでの Hono</h3>
-					<p>
-						Hono
-						アプリケーションをエッジランタイムにデプロイして、最大限の速度を実現する方法。
-					</p>
-					<a href="#" class="read-more">もっと読む &rarr;</a>
-				</article>
+			<h2 class="section-title">最新の投稿</h2>
+			<div class="post-list">
+				{
+					posts.map((post) => (
+						<article class="post-card">
+							<a href={post.url} class="post-link">
+								<div class="post-image">
+									{post.frontmatter.heroImage && (
+										<img
+											src={post.frontmatter.heroImage}
+											alt={post.frontmatter.title}
+										/>
+									)}
+								</div>
+								<div class="post-content">
+									<h3 class="post-title">
+										{post.frontmatter.title}
+									</h3>
+									<div class="post-meta">
+										<time
+											datetime={post.frontmatter.pubDate}
+										>
+											{new Date(
+												post.frontmatter.pubDate,
+											).toLocaleDateString("ja-JP")}
+										</time>
+									</div>
+									<p class="post-description">
+										{post.frontmatter.description}
+									</p>
+								</div>
+							</a>
+						</article>
+					))
+				}
+			</div>
+			<div class="view-all">
+				<a href="/blog" class="btn btn-secondary">すべての記事を見る</a>
 			</div>
 		</div>
 	</section>
@@ -110,7 +130,7 @@ import Layout from "../layouts/Layout.astro";
 		border-color: var(--color-text);
 	}
 
-	.features {
+	.latest-posts {
 		padding: 4rem 0;
 	}
 
@@ -120,32 +140,97 @@ import Layout from "../layouts/Layout.astro";
 		text-align: center;
 	}
 
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	.post-list {
+		display: flex;
+		flex-direction: column;
 		gap: 2rem;
+		max-width: 800px;
+		margin: 0 auto;
 	}
 
-	.card h3 {
+	.post-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		transition: var(--transition-base);
+	}
+
+	.post-card:hover {
+		transform: translateY(-4px);
+		border-color: var(--color-primary);
+		box-shadow: var(--shadow-lg);
+	}
+
+	.post-link {
+		display: flex;
+		text-decoration: none;
+		color: inherit;
+		align-items: stretch;
+	}
+
+	.post-image {
+		flex: 0 0 280px;
+		overflow: hidden;
+	}
+
+	.post-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+
+	.post-card:hover .post-image img {
+		transform: scale(1.05);
+	}
+
+	.post-content {
+		flex: 1;
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.post-title {
 		font-size: 1.5rem;
 		margin-bottom: 0.5rem;
 		color: var(--color-text);
+		line-height: 1.3;
 	}
 
-	.card p {
-		color: var(--color-text-muted);
-		margin-bottom: 1.5rem;
-	}
-
-	.read-more {
-		font-weight: 600;
+	.post-card:hover .post-title {
 		color: var(--color-primary);
-		display: inline-flex;
-		align-items: center;
 	}
 
-	.read-more:hover {
-		color: var(--color-primary-hover);
-		text-decoration: underline;
+	.post-meta {
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+		margin-bottom: 0.75rem;
+	}
+
+	.post-description {
+		color: var(--color-text-muted);
+		line-height: 1.6;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.view-all {
+		text-align: center;
+		margin-top: 3rem;
+	}
+
+	@media (max-width: 768px) {
+		.post-link {
+			flex-direction: column;
+		}
+
+		.post-image {
+			flex: 0 0 200px;
+		}
 	}
 </style>
