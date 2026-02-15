@@ -1,12 +1,31 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 
-// 記事を取得
-const allPosts = import.meta.glob("./*.{md,mdx}", { eager: true });
-const posts = Object.values(allPosts).map((post: any) => ({
-    url: post.url,
-    frontmatter: post.frontmatter,
-}));
+// 記事を手動でリスト化（Vercel互換性のため）
+const posts = [
+    {
+        url: "/blog/bun-overview",
+        frontmatter: {
+            title: "超高速JavaScriptランタイム「Bun」入門：特徴から使い方まで",
+            description:
+                "Node.jsに代わる高速なJavaScriptランタイム「Bun」の概要、基本的な使い方、公式ドキュメントへのリンクをまとめた入門記事です。",
+        },
+    },
+    {
+        url: "/blog/tech-stack",
+        frontmatter: {
+            title: "技術スタックの概要",
+            description: "このブログで使用している技術スタックについて",
+        },
+    },
+    {
+        url: "/blog/architecture",
+        frontmatter: {
+            title: "このブログのアーキテクチャについて",
+            description: "ブログのアーキテクチャと設計思想",
+        },
+    },
+];
 ---
 
 <Layout title="Blog Posts">
