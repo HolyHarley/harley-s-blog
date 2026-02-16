@@ -1,0 +1,69 @@
+---
+const { as: Tag, ...props } = Astro.props;
+---
+
+<Tag {...props} class={`stylish-heading ${Tag}`}>
+    <slot />
+</Tag>
+
+<style>
+    .stylish-heading {
+        position: relative;
+        padding-left: 0.75rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1.5rem;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(
+            --accent-text
+        ); /* Use theme variable if available, fallback handled below */
+    }
+
+    /* Fallback color if variable not defined */
+    :global(.dark) .stylish-heading {
+        color: #f1f5f9;
+    }
+
+    :global(:not(.dark)) .stylish-heading {
+        color: #f1f5f9;
+    }
+
+    /* H2 Style: Left Border + Gradient Background/Underline effect */
+    .h2 {
+        font-size: 1.75rem;
+        border-left: 5px solid #3b82f6; /* Blue accent */
+        background: linear-gradient(
+            90deg,
+            rgba(59, 130, 246, 0.1) 0%,
+            transparent 100%
+        );
+        padding: 0.5rem 0.75rem;
+        border-radius: 0 4px 4px 0;
+    }
+
+    /* H3 Style: Bottom Border + Icon styling (simulated with before/after if needed, or just cleaner underline) */
+    .h3 {
+        font-size: 1.4rem;
+        padding-left: 0;
+        border-bottom: 2px solid #cbd5e1;
+        padding-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    :global(.dark) .h3 {
+        border-bottom-color: #334155;
+    }
+
+    /* Add a decorative element for H3 */
+    .h3::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 24px;
+        background-color: #f97316; /* Orange accent */
+        border-radius: 2px;
+        margin-right: 8px;
+    }
+</style>

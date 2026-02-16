@@ -15,8 +15,16 @@ type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await render(post);
+import H2 from "../../components/mdx/H2.astro";
+import H3 from "../../components/mdx/H3.astro";
+
+// Wrap the Heading component for h2 and h3
+const components = {
+    h2: H2,
+    h3: H3,
+};
 ---
 
 <BlogPost frontmatter={post.data}>
-    <Content />
+    <Content components={components} />
 </BlogPost>
